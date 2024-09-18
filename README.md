@@ -27,6 +27,16 @@ Hero Randomizer API is a Kotlin-based REST API that generates random hero charac
 ### Running the Application
 
 To run the application using Gradle:
-
 ```bash
 ./gradlew bootRun
+```
+
+Get Random Hero:
+```bash
+curl -X GET "http://localhost:8000/hero/new"
+```
+
+Or you can find by blueprint:
+```bash
+curl -X GET "http://localhost:8000/hero?blueprint=0WM0Q0AIQhDF3ofgifC_otZLjGmFFJoiaKwhTPEUB8YJpFd26jAdQlqXWNbppBix2SfWqXy8twf_3xo_eEHtXVYvnEAAAA"
+```
