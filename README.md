@@ -60,5 +60,5 @@ curl -X GET "http://localhost:8000/hero/new"
 
 Or you can find by blueprint:
 ```bash
-curl -X GET "http://localhost:8000/hero?blueprint=0WM0Q0AIQhDF3ofgifC_otZLjGmFFJoiaKwhTPEUB8YJpFd26jAdQlqXWNbppBix2SfWqXy8twf_3xo_eEHtXVYvnEAAAA"
+curl -X GET "http://localhost:8000/hero?blueprint=y2M2wkAQQwCG5qPzWuT9N_YuXAQFBxjJ-aDG9NPDzVYXTwvocjpxS7tbGGL2OqGoo0MhiVxfWGyCOJBBa25o3BpNYRdu7LzavPDKFLu-Admq4OhjA"
 ```

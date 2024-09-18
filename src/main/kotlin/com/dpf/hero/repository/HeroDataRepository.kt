@@ -24,6 +24,8 @@ class HeroDataRepository : HeroDataSource {
     override val title2: List<String> = loadJsonList("${BASE_PATH}character/title_2.json")
     override val raze1: List<String> = loadJsonList("${BASE_PATH}character/raze_1.json")
     override val raze2: List<String> = loadJsonList("${BASE_PATH}character/raze_2.json")
+    override val raze3: List<String> = loadJsonList("${BASE_PATH}character/raze_3.json")
+    override val haircut: List<String> = loadJsonList("${BASE_PATH}character/haircut.json")
     override val background1: List<String> = loadJsonList("${BASE_PATH}character/background_1.json")
     override val background2: List<String> = loadJsonList("${BASE_PATH}character/background_2.json")
     override val background3: List<String> = loadJsonList("${BASE_PATH}character/background_3.json")

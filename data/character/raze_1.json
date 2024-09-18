@@ -1,8 +1,17 @@
 [
   "Human",
-  "Elf",
   "Dwarf",
-  "Hobbit",
   "Orc",
-  "Troll"
+  "Troll",
+  "Lizardfolk",
+  "Werewolf",
+  "Vampire",
+  "Undead",
+  "Dark Elf",
+  "High Elf",
+  "Wood Elf",
+  "Gnome",
+  "Fairy",
+  "Goblin",
+  "Merfolk"
 ]

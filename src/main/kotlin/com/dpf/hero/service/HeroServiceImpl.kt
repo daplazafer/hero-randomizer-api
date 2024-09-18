@@ -21,48 +21,59 @@ class HeroServiceImpl (
 ) : HeroService {
 
     companion object {
-        private const val BLUEPRINT_SEPARATOR = ","
+        private const val SEP = ","
         private const val INVALID_BLUEPRINT_ERROR_MESSAGE = "Invalid blueprint"
-        private const val BLUEPRINT_SIZE = 51
+        private const val BLUEPRINT_SIZE = 53
     }
 
     @Value("\${hero.generation.max-lvl}")
-    private val maxLvl: Int = 0
+    private val maxLvl: Int = 100
 
     @Value("\${hero.generation.max-augment}")
-    private val maxAugment: Int = 0
+    private val maxAugment: Int = 12
+
+    @Value("\${hero.generation.min-age}")
+    private val minAge: Int = 8
+
+    @Value("\${hero.generation.height-variation}")
+    private val heightVariation: Double = 0.3
 
     @Value("\${hero.generation.empty-equipment-factor}")
-    private val emptyEquipmentFactor: Double = 0.0
+    private val emptyEquipmentFactor: Double = 0.2
 
     @Value("\${hero.generation.rarity-factor}")
-    private val rarityFactor: Double = 0.0
+    private val rarityFactor: Double = 0.7
 
     override fun generateRandomHero(): Hero {
         var blueprint = "${Random.nextInt(1, maxLvl + 1)}" // lvl
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.name1.size)}" // name1
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.name2.size)}" // name2
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.title1.size)}" // title1
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.title2.size)}" // title2
+        blueprint += "$SEP${Random.nextInt(0, data.name1.size)}" // name1
+        blueprint += "$SEP${Random.nextInt(0, data.name2.size)}" // name2
+        blueprint += "$SEP${Random.nextInt(0, data.title1.size)}" // title1
+        blueprint += "$SEP${Random.nextInt(0, data.title2.size)}" // title2
 
         val raze = Random.nextInt(0, data.raze1.size)
         val maxAge = data.raze2[raze].toInt();
-        blueprint += "$BLUEPRINT_SEPARATOR$raze" // raze
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, maxAge)}" // age
+        val age = Random.nextInt(minAge, maxAge)
+        val baseHeight = data.raze3[raze].toInt()
+        blueprint += "$SEP$raze" // raze
+        blueprint += "$SEP$age" // age
+        blueprint += "$SEP${randomHeight(baseHeight, age, maxAge)}" // height
 
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.background1.size)}" // background1
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.background2.size)}" // background2
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(0, data.background3.size)}" // background3
+        blueprint += "$SEP${Random.nextInt(1, data.haircut.size)}" // haircut
 
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // constitution
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // wisdom
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // endurance
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // strength
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // intelligence
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // dexterity
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // perception
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // luck
-        blueprint += "$BLUEPRINT_SEPARATOR${Random.nextInt(1, 99)}" // charisma
+        blueprint += "$SEP${Random.nextInt(0, data.background1.size)}" // background1
+        blueprint += "$SEP${Random.nextInt(0, data.background2.size)}" // background2
+        blueprint += "$SEP${Random.nextInt(0, data.background3.size)}" // background3
+
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // constitution
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // wisdom
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // endurance
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // strength
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // intelligence
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // dexterity
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // perception
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // luck
+        blueprint += "$SEP${Random.nextInt(1, 99)}" // charisma
 
         blueprint += generateItemBlueprint(randomRarity(), data.helmet.size) // helmet
         blueprint += generateItemBlueprint(randomRarity(), data.chest.size) // chest
@@ -74,7 +85,7 @@ class HeroServiceImpl (
         blueprint += if (mainWeaponRarity > 0) {
             generateItemBlueprint(randomRarity(),data.weapon.size) // secondary weapon
         } else {
-            "${BLUEPRINT_SEPARATOR}0${BLUEPRINT_SEPARATOR}0${BLUEPRINT_SEPARATOR}0${BLUEPRINT_SEPARATOR}0"
+            "${SEP}0${SEP}0${SEP}0${SEP}0"
         }
         blueprint += generateItemBlueprint(randomRarity(),data.accessory.size) // accessory
 
@@ -87,45 +98,49 @@ class HeroServiceImpl (
 
         val decryptedBlueprint = crypto.decrypt(blueprint)
 
-        val regex = Regex("^\\d+(?:${BLUEPRINT_SEPARATOR}\\d+){${BLUEPRINT_SIZE-1}}$")
+        val regex = Regex("^\\d+(?:${SEP}\\d+){${BLUEPRINT_SIZE-1}}$")
         if (!regex.matches(decryptedBlueprint)) {
             throw IllegalArgumentException(INVALID_BLUEPRINT_ERROR_MESSAGE)
         }
 
         try {
-            val values = decryptedBlueprint.split(BLUEPRINT_SEPARATOR)
+            val values = decryptedBlueprint.split(SEP)
                 .map { it.toInt() }
                 .toIntArray()
+            var i = values.iterator()
 
-            val lvl = values[0] // lvl
-            val name = "${data.name1[values[1]]} ${data.name2[values[2]]}" // name
-            val title = "${data.title1[values[3]]} ${data.title2[values[4]]}" // title
-            val raze = data.raze1[values[5]] // raze
-            val age = values[6] // age
+            val lvl = i.next() // lvl
+            val name = "${data.name1[i.next()]} ${data.name2[i.next()]}" // name
+            val title = "${data.title1[i.next()]} ${data.title2[i.next()]}" // title
+            val raze = data.raze1[i.next()] // raze
+            val age = i.next() // age
+            val height = i.next() / 100.0 // height
+            val haircut = data.haircut[i.next()] // haircut
+
             val background =
-                "${data.background1[values[7]]}, ${data.background2[values[8]]}, ${data.background3[values[9]]}" // background
+                "${data.background1[i.next()]} ${data.background2[i.next()]} ${data.background3[i.next()]}" // background
 
             val stats = Stats(
-                constitution = values[10], // constitution
-                wisdom = values[11], // wisdom
-                endurance = values[12], // endurance
-                strength = values[13], // strength
-                intelligence = values[14], // intelligence
-                dexterity = values[15], // dexterity
-                perception = values[16], // perception
-                luck = values[17], // luck
-                charisma = values[18], // charisma
+                constitution = i.next(), // constitution
+                wisdom = i.next(), // wisdom
+                endurance = i.next(), // endurance
+                strength = i.next(), // strength
+                intelligence = i.next(), // intelligence
+                dexterity = i.next(), // dexterity
+                perception = i.next(), // perception
+                luck = i.next(), // luck
+                charisma = i.next(), // charisma
             )
 
             val equipment = Equipment(
-                helmet = buildItem(data.helmet, values[19], values[20], values[21],values[22]), // helmet
-                chest = buildItem(data.chest, values[23], values[24], values[25],values[26]), // chest
-                gloves = buildItem(data.gloves, values[27], values[28], values[29],values[30]), // gloves
-                pants = buildItem(data.pants, values[31], values[32], values[33],values[34]), // pants
-                boots = buildItem(data.boots, values[35], values[36], values[37],values[38]), // boots
-                mainWeapon = buildItem(data.weapon, values[39], values[40], values[41],values[42]), // main weapon
-                secondaryWeapon = buildItem(data.weapon, values[43], values[44], values[45],values[46]), // secondary weapon
-                accessory = buildItem(data.accessory, values[47], values[48], values[49],values[50]), // accessory
+                helmet = buildItem(data.helmet, i.next(), i.next(), i.next(),i.next()), // helmet
+                chest = buildItem(data.chest, i.next(), i.next(), i.next(),i.next()), // chest
+                gloves = buildItem(data.gloves, i.next(), i.next(), i.next(),i.next()), // gloves
+                pants = buildItem(data.pants, i.next(), i.next(), i.next(),i.next()), // pants
+                boots = buildItem(data.boots, i.next(), i.next(), i.next(),i.next()), // boots
+                mainWeapon = buildItem(data.weapon, i.next(), i.next(), i.next(),i.next()), // main weapon
+                secondaryWeapon = buildItem(data.weapon, i.next(), i.next(), i.next(),i.next()), // secondary weapon
+                accessory = buildItem(data.accessory, i.next(), i.next(), i.next(),i.next()), // accessory
             )
 
             return Hero(
@@ -135,6 +150,8 @@ class HeroServiceImpl (
                 title = title,
                 raze = raze,
                 age = age,
+                height = height,
+                haircut = haircut,
                 background = background,
                 stats = stats,
                 equipment = equipment
@@ -147,7 +164,7 @@ class HeroServiceImpl (
 
     private fun buildItem(itemList: List<String>, part1: Int, part2: Int, augment: Int, rarityId: Int): Item {
 
-        if(rarityId < 1){
+        if (rarityId < 1) {
             return Item(null, null)
         }
 
@@ -180,7 +197,7 @@ class HeroServiceImpl (
             else -> 0
         }
         val augment = if (rarity > 1 ) Random.nextInt(0, maxAugment + 1) else 0
-        return "$BLUEPRINT_SEPARATOR$part1$BLUEPRINT_SEPARATOR$part2$BLUEPRINT_SEPARATOR$augment$BLUEPRINT_SEPARATOR$rarity"
+        return "$SEP$part1$SEP$part2$SEP$augment$SEP$rarity"
     }
 
     private fun randomRarity(): Int {
@@ -195,5 +212,19 @@ class HeroServiceImpl (
             random < rarityFactor * 1.00 -> Rarity.UNCOMMON.id
             else -> Rarity.COMMON.id
         }
+    }
+
+
+
+    private fun randomHeight(baseHeight: Int, age: Int, maxAge: Int): Int {
+        val fullHeightAge = maxAge * 0.2
+        val ageFactor = if (age < fullHeightAge) {
+            age / fullHeightAge
+        } else {
+            1.0
+        }
+        val adjustedBaseHeight = (baseHeight * ageFactor).toInt()
+        val variation = adjustedBaseHeight * heightVariation
+        return (adjustedBaseHeight - variation + (Math.random() * (2 * variation))).toInt()
     }
 }

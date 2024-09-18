@@ -7,6 +7,8 @@ data class Hero(
     val title: String,
     val raze: String,
     val age: Int,
+    val height: Double,
+    val haircut: String,
     val background: String,
     val stats: Stats,
     val equipment: Equipment,

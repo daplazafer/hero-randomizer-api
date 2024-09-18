@@ -6,7 +6,7 @@ build:
 	@docker build -t $(IMAGE_NAME) .
 
 run:
-	@docker run --rm -p $(PORT):8080 -v $(PWD)/data:/app/data $(IMAGE_NAME)
+	@docker run --rm -d -p $(PORT):8080 -v $(PWD)/data:/app/data $(IMAGE_NAME)
 
 clean:
 	@rm -rf target
