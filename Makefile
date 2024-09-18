@@ -1,4 +1,4 @@
-PORT ?= 8000
+PORT ?= 8080
 IMAGE_NAME = hero-randomizer-api
 
 build:
@@ -6,10 +6,11 @@ build:
 	@docker build -t $(IMAGE_NAME) .
 
 run:
-	@docker run --rm -d -p $(PORT):8080 -v $(PWD)/data:/app/data $(IMAGE_NAME)
+	@docker run --rm -p $(PORT):8080 -v $(PWD)/data:/app/data $(IMAGE_NAME)
 
 clean:
 	@rm -rf target
+	@rm -fr out
 	@docker rmi -f $(IMAGE_NAME)
 
 .PHONY: build run clean
