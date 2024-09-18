@@ -39,6 +39,10 @@ kotlin {
     }
 }
 
+tasks.named<Jar>("jar") {
+    archiveFileName.set("hero-randomizer-api.jar")
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
