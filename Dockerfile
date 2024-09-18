@@ -1,11 +1,7 @@
-FROM gradle:jdk21
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY . /app
+COPY target/hero-randomizer-api*.jar /app/hero-randomizer-api.jar
 
-RUN gradle build -x test --no-daemon
-
-EXPOSE 8000
-
-ENTRYPOINT ["java", "-jar", "/app/build/libs/hero-randomizer-api.jar"]
+ENTRYPOINT ["java", "-jar", "/app/hero-randomizer-api.jar"]

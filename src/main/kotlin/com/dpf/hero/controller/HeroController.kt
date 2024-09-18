@@ -17,7 +17,7 @@ class HeroController(private val heroService: HeroService) {
     }
 
     @GetMapping
-    fun getHeroByBlueprint(@RequestParam(required = true) blueprint: String?): Hero {
+    fun getHeroByBlueprint(@RequestParam(required = true) blueprint: String): Hero {
         return heroService.buildHeroFromBlueprint(blueprint)
     }
 }

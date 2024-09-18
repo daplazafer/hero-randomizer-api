@@ -4,5 +4,5 @@ import com.dpf.hero.domain.model.Hero
 
 interface HeroService {
     fun generateRandomHero(): Hero
-    fun buildHeroFromBlueprint(blueprint: String?): Hero
+    fun buildHeroFromBlueprint(blueprint: String): Hero
 }

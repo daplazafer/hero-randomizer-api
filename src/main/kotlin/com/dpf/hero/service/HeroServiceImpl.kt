@@ -83,8 +83,7 @@ class HeroServiceImpl (
         return buildHeroFromBlueprint(encryptedBlueprint)
     }
 
-    override fun buildHeroFromBlueprint(blueprint: String?): Hero {
-        var blueprint = blueprint ?: ""
+    override fun buildHeroFromBlueprint(blueprint: String): Hero {
 
         val decryptedBlueprint = crypto.decrypt(blueprint)
 
