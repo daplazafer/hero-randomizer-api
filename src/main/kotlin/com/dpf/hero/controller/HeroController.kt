@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/hero")
 class HeroController(private val heroService: HeroService) {
 
-    @GetMapping("/new")
-    fun getRandomHero(): Hero {
-        return heroService.generateRandomHero()
-    }
-
     @GetMapping
-    fun getHeroByBlueprint(@RequestParam(required = true) blueprint: String): Hero {
-        return heroService.buildHeroFromBlueprint(blueprint)
+    fun getHeroByBlueprint(@RequestParam(required = false) blueprint: String?): Hero {
+        return if (blueprint.isNullOrEmpty()) {
+            heroService.generateRandomHero()
+        } else {
+            heroService.buildHeroFromBlueprint(blueprint)
+        }
     }
 }

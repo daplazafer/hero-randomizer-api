@@ -55,10 +55,10 @@ Get a Random Hero or find a hero by blueprint by sending HTTP requests to the ap
 
 Get Random Hero:
 ```bash
-curl -X GET "http://localhost:8000/hero/new"
+curl -X GET "http://localhost:8080/hero"
 ```
 
 Or you can find by blueprint:
 ```bash
-curl -X GET "http://localhost:8000/hero?blueprint=y2M2wkAQQwCG5qPzWuT9N_YuXAQFBxjJ-aDG9NPDzVYXTwvocjpxS7tbGGL2OqGoo0MhiVxfWGyCOJBBa25o3BpNYRdu7LzavPDKFLu-Admq4OhjA"
+curl -X GET "http://localhost:8080/hero?blueprint=0XKyQ3AMAwDwYb2oVty_43FiQ0EemgIMgqTRYgzlNNNOhr0YjY6sBoaUyYpJVnDKNGUnKINF2xwtvKV7F3iL-xkYQ_vV8tP_9mtHthlwk-Q"
 ```
