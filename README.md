@@ -15,8 +15,8 @@ Hero Randomizer API is a Kotlin-based REST API that generates random hero charac
 - **Maven** (Wrapper included)
 
 ## Endpoints
-- `GET /hero/new` - Generate a random hero.
-- `GET /hero?blueprint=` - Get specific hero.
+- `GET /api/hero/new` - Generate a random hero.
+- `GET /api/hero?blueprint=` - Get specific hero.
 
 ## Getting Started
 
@@ -55,10 +55,10 @@ Get a Random Hero or find a hero by blueprint by sending HTTP requests to the ap
 
 Get Random Hero:
 ```bash
-curl -X GET "http://localhost:8080/hero"
+curl -X GET "http://localhost:8080/api/hero"
 ```
 
 Or you can find by blueprint:
 ```bash
-curl -X GET "http://localhost:8080/hero?blueprint=0XKyQ3AMAwDwYb2oVty_43FiQ0EemgIMgqTRYgzlNNNOhr0YjY6sBoaUyYpJVnDKNGUnKINF2xwtvKV7F3iL-xkYQ_vV8tP_9mtHthlwk-Q"
+curl -X GET "http://localhost:8080/api/hero?blueprint=0XKyQ3AMAwDwYb2oVty_43FiQ0EemgIMgqTRYgzlNNNOhr0YjY6sBoaUyYpJVnDKNGUnKINF2xwtvKV7F3iL-xkYQ_vV8tP_9mtHthlwk-Q"
 ```

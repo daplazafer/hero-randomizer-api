@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero Randomizer API</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      header {
+        background-color: #333;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+      }
+      header h1 {
+        color: white;
+        margin: 0;
+      }
+      main {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      section {
+        margin-bottom: 1.5rem;
+      }
+      h1,
+      h2 {
+        color: #4caf50;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+      .example-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 4px;
+        display: inline-block;
+        margin-top: 0.5rem;
+      }
+      .example-btn:hover {
+        background-color: #45a049;
+      }
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: #333;
+        color: white;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Hero Randomizer API</h1>
+      <p>A quick guide to using the Hero Randomizer API</p>
+    </header>
+    <main>
+      <section>
+        <h2>Introduction</h2>
+        <p>
+          Welcome to the Hero Randomizer API! This API allows you to generate
+          random heroes or create them from predefined blueprints. Below are the
+          available endpoints and examples to get you started.
+        </p>
+      </section>
+      <section>
+        <h2>Endpoints</h2>
+        <h3><code>GET /api/hero</code></h3>
+        <p>Generates a completely random hero.</p>
+        <a href="/api/hero" class="example-btn" target="_blank">Try it</a>
+
+        <h3><code>GET /api/hero?blueprint=...</code></h3>
+        <p>Generates a hero based on the provided blueprint.</p>
+        <pre>
+0XKyQ3AMAwDwYb2oVty_43FiQ0EemgIMgqTRYgzlNNNOhr0YjY6sBoaUyYpJVnDKNGUnKINF2xwtvKV7F3iL-xkYQ_vV8tP_9mtHthlwk-Q
+      </pre
+        >
+        <a
+          href="/api/hero?blueprint=0XKyQ3AMAwDwYb2oVty_43FiQ0EemgIMgqTRYgzlNNNOhr0YjY6sBoaUyYpJVnDKNGUnKINF2xwtvKV7F3iL-xkYQ_vV8tP_9mtHthlwk-Q"
+          class="example-btn"
+          target="_blank"
+          >Try it</a
+        >
+      </section>
+    </main>
+    <footer>
+      <p>
+        Feel free to use, copy, and improve this project. Check out the
+        <a
+          href="https://github.com/daplazafer/hero-randomizer-api"
+          style="color: #4caf50; text-decoration: none"
+          target="_blank"
+          >GitHub repository</a
+        >
+        for more information.
+      </p>
+    </footer>
+  </body>
+</html>

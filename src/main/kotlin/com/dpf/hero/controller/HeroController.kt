@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/hero")
+@RequestMapping("/api/hero")
 class HeroController(private val heroService: HeroService) {
 
     @GetMapping
-    fun getHeroByBlueprint(@RequestParam(required = false) blueprint: String?): Hero {
+    fun getHero(@RequestParam(required = false) blueprint: String?): Hero {
         return if (blueprint.isNullOrEmpty()) {
             heroService.generateRandomHero()
         } else {
