@@ -23,39 +23,42 @@ class HeroServiceImpl (
     companion object {
         private const val SEP = ","
         private const val INVALID_BLUEPRINT_ERROR_MESSAGE = "Invalid blueprint"
-        private const val BLUEPRINT_SIZE = 53
+        private const val BLUEPRINT_SIZE = 56
     }
 
-    @Value("\${hero.generation.max-lvl}")
-    private val maxLvl: Int = 100
+    @Value("\${hero.generation.max-lvl:100}")
+    private var maxLvl: Int = 0
 
-    @Value("\${hero.generation.max-augment}")
-    private val maxAugment: Int = 12
+    @Value("\${hero.generation.max-augment:12}")
+    private var maxAugment: Int = 0
 
-    @Value("\${hero.generation.min-age}")
-    private val minAge: Int = 8
+    @Value("\${hero.generation.min-age:8}")
+    private var minAge: Int = 0
 
-    @Value("\${hero.generation.height-variation}")
-    private val heightVariation: Double = 0.3
+    @Value("\${hero.generation.height-variation:0.2}")
+    private var heightVariation: Double = 0.0
 
-    @Value("\${hero.generation.empty-equipment-factor}")
-    private val emptyEquipmentFactor: Double = 0.2
+    @Value("\${hero.generation.empty-equipment-factor:0.2}")
+    private var emptyEquipmentFactor: Double = 0.0
 
-    @Value("\${hero.generation.rarity-factor}")
-    private val rarityFactor: Double = 0.7
+    @Value("\${hero.generation.rarity-factor:0.7}")
+    private var rarityFactor: Double = 0.0
 
     override fun generateRandomHero(): Hero {
         var blueprint = "${Random.nextInt(1, maxLvl + 1)}" // lvl
         blueprint += "$SEP${Random.nextInt(0, data.name1.size)}" // name1
         blueprint += "$SEP${Random.nextInt(0, data.name2.size)}" // name2
+        blueprint += "$SEP${Random.nextInt(0, data.alignment.size)}" // alignment
         blueprint += "$SEP${Random.nextInt(0, data.title1.size)}" // title1
         blueprint += "$SEP${Random.nextInt(0, data.title2.size)}" // title2
+        blueprint += "$SEP${Random.nextInt(0, data.faith.size)}" // faith
 
         val raze = Random.nextInt(0, data.raze1.size)
         val maxAge = data.raze2[raze].toInt();
         val age = Random.nextInt(minAge, maxAge)
         val baseHeight = data.raze3[raze].toInt()
         blueprint += "$SEP$raze" // raze
+        blueprint += "$SEP${Random.nextInt(0, data.orientation.size)}" // orientation
         blueprint += "$SEP$age" // age
         blueprint += "$SEP${randomHeight(baseHeight, age, maxAge)}" // height
 
@@ -111,8 +114,11 @@ class HeroServiceImpl (
 
             val lvl = i.next() // lvl
             val name = "${data.name1[i.next()]} ${data.name2[i.next()]}" // name
+            val alignment = data.alignment[i.next()] //alignment
             val title = "${data.title1[i.next()]} ${data.title2[i.next()]}" // title
+            val faith = data.faith[i.next()] //faith
             val raze = data.raze1[i.next()] // raze
+            val orientation = data.orientation[i.next()] // orientation
             val age = i.next() // age
             val height = i.next() / 100.0 // height
             val haircut = data.haircut[i.next()] // haircut
@@ -147,8 +153,11 @@ class HeroServiceImpl (
                 blueprint = blueprint,
                 lvl = lvl,
                 name = name,
+                alignment = alignment,
                 title = title,
+                faith = faith,
                 raze = raze,
+                orientation = orientation,
                 age = age,
                 height = height,
                 haircut = haircut,
